@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,15 +17,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sqber.filemgr.model.FileModel;
+import com.sqber.filemgr.myexception.RecordNotFoundException;
+import com.sqber.filemgr.service.FileModelService;
 
 /*
  * 
  * byte[] 和 String 的转换
  * fastJson 读取字符串配置 （获取 resource 下面的文件路径）
- *  
+ * mysql 的 guid 类型 char(36)
  * */
 @Controller
 public class FileController {
+
+	@Autowired
+	private FileModelService fileModelService;
 
 	@GetMapping("/file/{id}")
 	public void index(HttpServletRequest request, @PathVariable String id, HttpServletResponse response) {
@@ -32,10 +38,12 @@ public class FileController {
 		try {
 
 			FileModel fileModel = getFile(id);
+			if (fileModel == null)
+				throw new RecordNotFoundException();
 
 			String filePath = fileModel.getFilePath();
 			byte[] contentBytes = getFileByte(id, filePath);
-			//response.setContentLengthLong(contentBytes.length);
+			// response.setContentLengthLong(contentBytes.length);
 
 			String fileType = fileModel.getFileExtension();
 			String contentType = fileTypeToContentType(fileType);
@@ -45,6 +53,8 @@ public class FileController {
 			stream.write(contentBytes);
 			stream.flush();
 
+		} catch (RecordNotFoundException ex) {
+			showMsg("文件记录不存在", response);
 		} catch (FileNotFoundException ex) {
 			showMsg(ex.getMessage(), response);
 		} catch (Exception e) {
@@ -71,16 +81,18 @@ public class FileController {
 
 	private FileModel getFile(String id) {
 		// search db
-		String fileid = id;
+		// String fileid = id;
 
-		FileModel model = new FileModel();
+		// FileModel model = new FileModel();
+		//
+		// model.setId("1");
+		//
+		// model.setFilePath("d:/1.zip");
+		// model.setFileSize(134244);
+		// model.setName("screen");
+		// model.setFileExtension(".zip");
 
-		model.setId("1");
-		
-		model.setFilePath("d:/1.zip");
-		model.setFileSize(134244);
-		model.setName("screen");
-		model.setFileExtension(".zip");
+		FileModel model = fileModelService.getById(id);
 
 		return model;
 	}
@@ -90,11 +102,11 @@ public class FileController {
 		try {
 
 			byte[] contentBytes = msg.getBytes();
-			OutputStream stream = response.getOutputStream();			
+			OutputStream stream = response.getOutputStream();
 			response.setHeader("content-type", "text/html;charset=UTF-8");
 			stream.write(contentBytes);
 			stream.flush();
-			
+
 			stream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,23 +115,23 @@ public class FileController {
 
 	private String fileTypeToContentType(String fileType) throws IOException {
 
-		String configFilePath =	this.getClass().getResource("/contenttype.json").getPath();
+		String configFilePath = this.getClass().getResource("/contenttype.json").getPath();
 		File file = new File(configFilePath);
 		if (!file.exists()) {
 			String mString = "文件不存在:" + configFilePath;
 			System.out.println(mString);
 			throw new FileNotFoundException(mString);
-		}			
+		}
 
 		FileInputStream stream = new FileInputStream(file);
 		byte[] content = new byte[stream.available()];
 		stream.read(content);
 		stream.close();
 
-		String fileContent = new String(content);	
-		
-		JSONObject obj = JSON.parseObject(fileContent);		
-		
+		String fileContent = new String(content);
+
+		JSONObject obj = JSON.parseObject(fileContent);
+
 		String key = fileType.toLowerCase();
 
 		if (obj.containsKey(key))

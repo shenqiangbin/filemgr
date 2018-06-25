@@ -1,0 +1,167 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql",
+      "type": "com.sqber.filemgr.config.MySQLDataSourceConfig"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.allow-pool-suspension",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.auto-commit",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.catalog",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.connection-init-sql",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.connection-test-query",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.connection-timeout",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.data-source-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.data-source-j-n-d-i",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.data-source-properties",
+      "type": "java.util.Properties"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.driver-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.health-check-properties",
+      "type": "java.util.Properties"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.health-check-registry",
+      "type": "java.lang.Object"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.idle-timeout",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.initialization-fail-timeout",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.isolate-internal-queries",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.jdbc-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.leak-detection-threshold",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.max-lifetime",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.maximum-pool-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.metric-registry",
+      "type": "java.lang.Object"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.minimum-idle",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.pool-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.read-only",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.register-mbeans",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.schema",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.transaction-isolation",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.username",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.sqber.filemgr.config.MySQLDataSourceConfig",
+      "name": "datasource.mysql.validation-timeout",
+      "type": "java.lang.Long"
+    }
+  ]
+}

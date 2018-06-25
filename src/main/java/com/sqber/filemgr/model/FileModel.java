@@ -3,19 +3,27 @@ package com.sqber.filemgr.model;
 import java.util.Date;
 
 public class FileModel {
-	private String id;
+	private int id;
+	private String fileId;
 	private String name;
 	private String filePath;
 	private String fileExtension;
 	private long fileSize;
 	private Date createTime;
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
+	public String getFileId() {
+		return this.fileId;
+	}
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
+	}
+	
 	public String getName() {
 		return name;
 	}
