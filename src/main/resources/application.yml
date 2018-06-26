@@ -1,6 +1,12 @@
 server:
   port: 8004
   
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100Mb
+      maxRequestSize: 1000Mb
+      
 datasource:
   mysql:
     JdbcUrl: jdbc:mysql://127.0.0.1:3306/filemgr?useUnicode=true&characterEncoding=utf8&useSSL=false

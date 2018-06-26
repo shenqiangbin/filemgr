@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="SQBER的博客,Java资源" />
+	<meta name="keywords" content="SQBER的博客,sqber,Java资源,Java" />
+		
+	<link rel="icon" href="/favicon.ico" type="image/x-icon" />    
+				
+    <title>大文件上传</title>
+    
+    <!-- Bootstrap CSS -->    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    
+   
+   	<script src="/js/jquery.min.js"></script>
+   	<link href="/js/webuploader-0.1.4/dist/webuploader.css" rel="stylesheet" />	
+	<script src="/js/webuploader-0.1.4/dist/webuploader.js"></script>
+	<script src="/js/filemgr-index.js"></script>
+    
+    <style>
+    	a{    
+    		word-wrap: break-word;
+    		word-break: break-all;
+    	}
+    	.blog-footer {
+		    padding: 2.5rem 0;
+		    color: #999;
+		    text-align: center;
+		    background-color: #f9f9f9;
+		    border-top: .05rem solid #e5e5e5;
+		}
+		
+    </style>     
+        
+       
+</head>
+
+<body>
+	
+<div class="container">
+	<h2>文件上传</h2>
+	
+	<div id="uploader">
+	
+    <!--用来存放文件信息-->
+    <div id="thelist" class="uploader-list"></div>
+    
+    <div class="btns">
+        <div id="picker">选择文件</div>        
+    </div>
+
+    <div id="item1">
+        <p class="state">信息...</p>
+    </div>
+</div>
+    
+</div>
+	
+	<footer class="blog-footer">
+      <p>前端 by <a href="https://getbootstrap.com/">Bootstrap</a> 后台 by <a href="/">Java</a> <a href="/">thymeleaf</a></p>
+      <p>
+        所有者 <a href="http://www.sqber.com">sqber</a>
+      </p>
+      <p>2017-2018 冀ICP备17029815</p>
+    </footer>
+	
+</body>
+
+
+</html>
