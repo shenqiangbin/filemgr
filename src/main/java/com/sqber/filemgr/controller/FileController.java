@@ -25,6 +25,7 @@ import com.sqber.filemgr.service.FileModelService;
  * byte[] 和 String 的转换
  * fastJson 读取字符串配置 （获取 resource 下面的文件路径）
  * mysql 的 guid 类型 char(36)
+ * 根目录的获取方式 
  * */
 @Controller
 public class FileController {

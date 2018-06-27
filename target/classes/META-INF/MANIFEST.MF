@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: filemgr
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: admin
+Built-By: shen
 Implementation-Vendor-Id: com.sqber
 Build-Jdk: 1.8.0_162
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo

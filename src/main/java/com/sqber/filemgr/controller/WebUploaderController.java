@@ -14,15 +14,14 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.RequestContext;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.sqber.filemgr.controller.response.CheckChunkResponse;
 import com.sqber.filemgr.controller.response.MergeChunksResponse;
@@ -43,37 +42,25 @@ public class WebUploaderController {
 		String chunkStr = "";
 		String chunksStr = "";
 		String fileGuid = "";
-		FileItem fileItem = null;
 		InputStream inputStream = null;
 		String extName = "";
 		
-		DiskFileItemFactory factory = new DiskFileItemFactory(); 
-		ServletFileUpload fileUpload = new ServletFileUpload(factory);
-		fileUpload.setHeaderEncoding("utf-8");
-
 		try {
 
-			List<FileItem> items = fileUpload.parseRequest((RequestContext) request);
-			for (FileItem item : items) {
-				if (item.isFormField()) {
-					String fieldName = item.getFieldName();
-					if (fieldName.equals("guid"))
-						fileGuid = item.getString("utf-8");
-					if (fieldName.equals("chunk"))
-						chunkStr = item.getString("utf-8");
-					if (fieldName.equals("chunks"))
-						chunksStr = item.getString("utf-8");
-				} else {
-					fileItem = item;
-					inputStream = item.getInputStream();
-					String fileName = item.getName();
-					fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
-					extName = fileName.substring(fileName.lastIndexOf("."));
-				}
-			}
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		    
+		    fileGuid = multipartRequest.getParameter("guid");
+		    chunkStr = multipartRequest.getParameter("chunk");
+		    chunksStr = multipartRequest.getParameter("chunks");
+		    
+			MultipartFile file = multipartRequest.getFile("file");
+		       
+		    inputStream = file.getInputStream();
+			
+		    String fileName = file.getOriginalFilename();		    			
+			extName = fileName.substring(fileName.lastIndexOf("."));
 
-			String rootPath = this.getClass().getResource("/").toString();
-			String folder = rootPath + "/upload/" + fileGuid + "/";
+			String folder = getRootPath() + "/upload/" + fileGuid + "/";
 
 			if (!new File(folder).exists())
 				new File(folder).mkdirs();
@@ -86,6 +73,9 @@ public class WebUploaderController {
 				int chunks = Integer.parseInt(chunksStr);
 
 				File chunkFile = new File(folder + "/" + chunkStr);
+				System.out.println(folder + "/" + chunkStr);
+				if(!chunkFile.exists())
+					chunkFile.createNewFile();					
 
 				/*
 				 * 将Request中的文件流(inputStream)读取到byte[]数组中，再将其写入文件
@@ -106,10 +96,21 @@ public class WebUploaderController {
 
 			else { // 如果没有分片
 
-				String fileName = UUID.randomUUID().toString() + extName;
-				File file = new File(folder + "/" + fileName);
-				fileItem.write(file);
+				String fileName1 = UUID.randomUUID().toString() + extName;
+				File file1 = new File(folder + "/" + fileName1);
+				if(!file1.exists())
+					file1.createNewFile();
+				
+				int length = inputStream.available();
+				byte[] content = new byte[length];
+				inputStream.read(content);
+				
+				FileOutputStream stream = new FileOutputStream(file1);
+				stream.write(content);
 
+				stream.close();
+				inputStream.close();
+				
 				return new UploadChunkResponse(false, false, extName);
 			}
 
@@ -127,33 +128,13 @@ public class WebUploaderController {
 		String fileGuid = "";
 		String extName = "";
 
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-		ServletFileUpload fileUpload = new ServletFileUpload(factory);
-		fileUpload.setHeaderEncoding("utf-8");
-
 		try {
-
-			List<FileItem> items = fileUpload.parseRequest((RequestContext) request);
-			for (FileItem item : items) {
-				if (item.isFormField()) {
-					String fieldName = item.getFieldName();
-					if (fieldName.equals("guid"))
-						fileGuid = item.getString("utf-8");
-					if (fieldName.equals("fileName")) {
-						String fileName = item.getString("utf-8");
-						extName = fileName.substring(fileName.lastIndexOf("."));
-					}
-				} else {
-					// fileItem = item;
-					// inputStream = item.getInputStream();
-					// String fileName = item.getName();
-					// fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
-					// extName = fileName.substring(fileName.lastIndexOf("."));
-				}
-			}
-
-			String rootPath = this.getClass().getResource("/").toString();
-			String folder = rootPath + "/upload/" + fileGuid + "/";
+				    
+		    fileGuid = request.getParameter("guid");		    
+		    String fileName = request.getParameter("fileName");    			
+			extName = fileName.substring(fileName.lastIndexOf("."));
+			
+			String folder = getRootPath() + "/upload/" + fileGuid + "/";
 
 			File dir = new File(folder);
 			if (dir.exists()) {
@@ -181,9 +162,10 @@ public class WebUploaderController {
 					}
 				});
 
-				String fileName = UUID.randomUUID().toString() + extName;
-				File file = new File(folder + "/" + fileName);
-				FileOutputStream stream = new FileOutputStream(file);
+				String newfileName = UUID.randomUUID().toString() + extName;
+				File newFile = new File(getRootPath() + "/upload/" + newfileName);
+				
+				FileOutputStream stream = new FileOutputStream(newFile);
 
 				for (File item : fileList) {
 
@@ -199,13 +181,13 @@ public class WebUploaderController {
 				stream.close();
 				dir.delete();
 
-				return new MergeChunksResponse(1, "/uploads/" + fileName);
+				return new MergeChunksResponse(1, "/upload/" + newfileName);
 			} else {
 				return new MergeChunksResponse(1, "");
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e) {			
+			e.printStackTrace();			
 			return new MergeChunksResponse(0, "");
 		}
 
@@ -219,9 +201,9 @@ public class WebUploaderController {
 		String fileMd5 = request.getParameter("fileMd5");
 		String chunk = request.getParameter("chunk");
 		String chunkSize = request.getParameter("chunkSize");
+				
+		String folder = getRootPath() + "/upload/" + fileMd5 + "/";
 		
-		String rootPath = this.getClass().getResource("/").toString();
-		String folder = rootPath + "/upload/" + fileMd5 + "/";
 		String path = folder + chunk;
 		File file = new File(path);
 
@@ -231,5 +213,10 @@ public class WebUploaderController {
 		else
 			return new CheckChunkResponse(0);
 
+	}
+	
+	private String getRootPath() {
+		String rootPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+		return rootPath;
 	}
 }

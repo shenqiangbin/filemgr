@@ -1,0 +1,13 @@
+问题：
+org.springframework.web.multipart.support.StandardMultipartHttpServletRequest cannot be cast to org.apache.tomcat.util.http.fileupload.RequestContext
+
+Answer:
+https://blog.csdn.net/niuch1029291561/article/details/17377903
+Spring Boot 有专门的文件接收方式
+
+java.io.IOException: 文件名、目录名或卷标语法不正确
+
+Answer：实际是 根目录的获取不正确 
+
+
+上传出错！请检查后重新上传！错误代码F_DUPLICATE
