@@ -141,6 +141,8 @@ $(function(){
 	        $('#item1').html("文件大小不能超过");
 	    } else if (type == "F_EXCEED_SIZE") {
 	        $('#item1').html("文件大小不能超过" + singleFileMaxSize + "M");
+	    }else if(type == "F_DUPLICATE"){
+	    	$('#item1').html("文件已经上传过了");
 	    }
 	    else {
 	        $('#item1').html("上传出错！请检查后重新上传！错误代码" + type);
